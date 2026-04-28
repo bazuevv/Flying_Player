@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Утилитарный скрипт (НЕ hook!). Читает .claude/bypass/warn.log целиком,
+Утилитарный скрипт (НЕ hook!). Читает .claude/hooks-runtime/warn.log целиком,
 выводит содержимое в stdout и очищает файл.
 
 Используется моделью, когда нужно проверить факт срабатывания
@@ -28,7 +28,7 @@ def main() -> int:
         script_path = pathlib.Path(__file__).resolve()
         project_dir = str(script_path.parent.parent.parent)
 
-    log = pathlib.Path(project_dir) / ".claude" / "bypass" / "warn.log"
+    log = pathlib.Path(project_dir) / ".claude" / "hooks-runtime" / "warn.log"
     if not log.exists():
         return 0
 

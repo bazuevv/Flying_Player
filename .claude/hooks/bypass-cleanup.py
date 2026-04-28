@@ -2,7 +2,7 @@
 """
 SessionEnd hook. Делает две вещи:
 
-1. Удаляет marker текущей сессии (`.claude/bypass/<session_id>`) —
+1. Удаляет marker текущей сессии (`.claude/hooks-runtime/<session_id>`) —
    штатная уборка после нормального закрытия.
 
 2. Чистит «сиротские» marker'ы от сессий, которые упали/убиты и не
@@ -87,21 +87,21 @@ def main() -> int:
     if not project_dir:
         return 0
 
-    bypass_dir = pathlib.Path(project_dir) / ".claude" / "bypass"
+    runtime_dir = pathlib.Path(project_dir) / ".claude" / "hooks-runtime"
 
     if current_session:
         try:
-            (bypass_dir / current_session).unlink(missing_ok=True)
+            (runtime_dir / current_session).unlink(missing_ok=True)
         except Exception:
             pass
 
-    if not bypass_dir.is_dir():
+    if not runtime_dir.is_dir():
         return 0
 
     active = get_active_session_ids()
     now = time.time()
 
-    for marker in bypass_dir.iterdir():
+    for marker in runtime_dir.iterdir():
         if not marker.is_file():
             continue
         if marker.name == current_session:

@@ -1,0 +1,20 @@
+/*
+ * Кастомные стили для webview расширения Claude Code (anthropic.claude-code).
+ *
+ * Загружается через <link> из webview/index.js, который инжектит JS-патч
+ * (см. PATCHES_DIR в .claude/hooks/patch-claude-webview.py).
+ *
+ * Канонический источник — этот файл; копия в
+ * ~/.vscode/extensions/anthropic.claude-code-*-linux-x64/webview/claude-custom.css
+ * синхронизируется хуком SessionStart на каждой сессии.
+ *
+ * Для применения изменений: правишь этот файл → новая сессия Claude Code
+ * скопирует его в webview/ → Developer: Reload Window в VSCode.
+ */
+
+/* TEST: жёлтый */
+.claude-ts-line,
+.claude-ts-line em,
+.claude-ts-line * {
+  color: #51e00e !important;
+}

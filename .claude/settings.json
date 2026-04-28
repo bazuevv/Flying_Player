@@ -143,6 +143,20 @@
           {
             "type": "command",
             "command": "python3 $CLAUDE_PROJECT_DIR/.claude/hooks/inject-timestamp.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 $CLAUDE_PROJECT_DIR/.claude/hooks/patch-claude-webview.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $CLAUDE_PROJECT_DIR/.claude/hooks/patch-claude-webview.py"
           }
         ]
       }

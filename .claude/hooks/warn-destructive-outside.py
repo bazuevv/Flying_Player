@@ -30,11 +30,11 @@ SPLIT_RE = re.compile(r"[\n;]|&&|\|\||\|")
 
 
 def log_trigger(project_dir: str, event: dict) -> None:
-    """Дописывает строку JSON в .claude/bypass/warn.log.
+    """Дописывает строку JSON в .claude/hooks-runtime/warn.log.
     Модель может прочитать этот файл, чтобы узнать, фаерился ли
     хук на предыдущую команду, и тем самым понять, показывалось
     ли пользователю окно подтверждения."""
-    log_path = pathlib.Path(project_dir) / ".claude" / "bypass" / "warn.log"
+    log_path = pathlib.Path(project_dir) / ".claude" / "hooks-runtime" / "warn.log"
     try:
         log_path.parent.mkdir(parents=True, exist_ok=True)
         with log_path.open("a", encoding="utf-8") as f:

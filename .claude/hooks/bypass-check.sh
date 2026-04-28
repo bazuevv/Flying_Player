@@ -15,7 +15,7 @@ session_id=$(printf '%s' "$input" | jq -r '.session_id // empty')
 [ -z "$session_id" ] && exit 0
 [ -z "$CLAUDE_PROJECT_DIR" ] && exit 0
 
-marker="$CLAUDE_PROJECT_DIR/.claude/bypass/$session_id"
+marker="$CLAUDE_PROJECT_DIR/.claude/hooks-runtime/$session_id"
 
 if [ -f "$marker" ]; then
     jq -nc --arg sid "$session_id" '{

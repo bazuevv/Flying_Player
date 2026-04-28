@@ -37,7 +37,7 @@ def main() -> int:
     if not project_dir:
         return 0
 
-    marker_dir = pathlib.Path(project_dir) / ".claude" / "bypass"
+    marker_dir = pathlib.Path(project_dir) / ".claude" / "hooks-runtime"
     marker_dir.mkdir(parents=True, exist_ok=True)
     marker = marker_dir / session_id
     marker.write_text(f"{time.time()}\n")

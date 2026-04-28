@@ -1,0 +1,44 @@
+# Конфиг для кастомного JS в webview расширения Claude Code.
+#
+# Хук .claude/hooks/patch-claude-webview.py читает этот файл через
+# `tomllib` (stdlib Python 3.11+) и инлайнит результат в bootstrap
+# webview/index.js как `window.__CLAUDE_CUSTOM_CONFIG__`. Изменения
+# вступают в силу:
+#   - для CSS-related параметров (pollIntervalMs/throttleMs) — после
+#     Reload Window или закрытия/открытия панели Claude Code
+#     (bootstrap-уровень);
+#   - для `logs` — там же (читается при init JS, до Reload не сменится).
+#
+# Workflow: правишь параметр → новая сессия Claude Code или
+# UserPromptSubmit-хук перепишет bootstrap → Reload Window.
+
+# Включить/выключить console.log + console.warn от инжектируемого JS.
+# true — логи `[claude-custom] ...` появляются в Workbench DevTools → Console.
+# false — логов нет (тише в проде).
+logs = false
+
+# Период периодического пуллинга CSS (мс).
+# Каждые pollIntervalMs JS пересоздаёт <link rel="stylesheet"> с
+# cache-bust query, чтобы открытые webview-вкладки догоняли изменения
+# claude-custom.css даже без DOM-активности. Меньше — быстрее реакция,
+# больше — меньше шума в DevTools Sources.
+pollIntervalMs = 5000
+
+# Минимальный интервал между двумя обновлениями CSS на DOM-мутациях (мс).
+# MutationObserver может стрелять часто во время стриминга ответа;
+# throttle защищает от лишних refresh'ей в этом окне.
+throttleMs = 200
+
+# Задержка перед догоняющим refresh при активации вкладки (мс).
+# Когда переключаешься на ранее неактивную вкладку, JS делает refresh
+# через visibilityRefreshDelayMs, а не сразу — это позволяет увидеть,
+# как меняется цвет (и убедиться, что хот-релоад действительно работает).
+# 0 — refresh мгновенный.
+visibilityRefreshDelayMs = 2000
+
+# Включить/выключить отладочное окно в правом верхнем углу webview.
+# true — показывает таймер до следующего CSS-poll'а на любой вкладке;
+# при visibility-resume переключается в режим обратного отсчёта до
+# догоняющего refresh.
+# false — overlay не создаётся, никаких таймеров не показывается.
+debugOverlay = false
